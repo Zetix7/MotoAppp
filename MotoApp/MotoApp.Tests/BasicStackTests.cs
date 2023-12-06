@@ -6,7 +6,7 @@ public class BasicStackTests
     [Test]
     public void Push3ValuesReturnFirstOnStack()
     {
-        var stack = new BasicStack();
+        var stack = new BasicStack<double>();
         stack.Push(10.3);
         stack.Push(71.9);
         stack.Push(11);

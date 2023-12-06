@@ -1,6 +1,6 @@
 ﻿using MotoApp;
 
-var stack = new BasicStack();
+var stack = new BasicStack<double>();
 stack.Push(4.7);
 stack.Push(47);
 stack.Push(43.67);
