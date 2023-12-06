@@ -1,6 +1,6 @@
 ﻿namespace MotoApp;
 
-internal class BasicStack
+public class BasicStack
 {
     private readonly double[] _items;
     private int _currentIndex = -1;
