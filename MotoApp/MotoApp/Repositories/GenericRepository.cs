@@ -4,7 +4,7 @@ namespace MotoApp.Repositories;
 
 public class GenericRepository<T> where T : IEntity
 {
-    private readonly List<T> _items = new();
+    protected readonly List<T> _items = new();
 
     public void Add(T item)
     {
