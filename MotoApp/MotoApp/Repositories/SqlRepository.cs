@@ -3,7 +3,7 @@ using MotoApp.Entities;
 
 namespace MotoApp.Repositories;
 
-public class SqlRepository<T> : IRepository<T> where T : class, IEntity
+public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 {
     private readonly DbSet<T> _dbSet;
     private readonly DbContext _dbContext;
@@ -16,7 +16,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity
 
     public IEnumerable<T> GetAll()
     {
-        return _dbSet.ToList();
+        return _dbSet.OrderBy(x => x.Id).ToList();
     }
 
     public T? GetById(int id)
