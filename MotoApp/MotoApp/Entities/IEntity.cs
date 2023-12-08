@@ -1,6 +1,6 @@
 ﻿namespace MotoApp.Entities;
 
-public class IEntity
+public interface IEntity
 {
     public int Id { get; set; }
 }

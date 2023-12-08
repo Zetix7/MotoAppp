@@ -2,7 +2,7 @@
 
 namespace MotoApp.Repositories;
 
-public class GenericRepositoryWithRemove<T> : GenericRepository<T> where T : IEntity
+public class GenericRepositoryWithRemove<T, TKey> : GenericRepository<T, TKey> where T : IEntity
 {
     public void Remove(T item)
     {
