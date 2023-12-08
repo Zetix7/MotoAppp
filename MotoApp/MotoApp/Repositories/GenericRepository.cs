@@ -2,7 +2,9 @@
 
 namespace MotoApp.Repositories;
 
-public class GenericRepository<TEntity, TKey> where TEntity : IEntity
+public class GenericRepository<TEntity, TKey> 
+    where TEntity : class, IEntity, new()
+    where TKey : struct
 {
     public TKey Key { get; set; }
 
