@@ -1,6 +1,6 @@
 ﻿namespace MotoApp.Entities;
 
-public abstract class EntityBase : IEntity
+public class IEntity
 {
     public int Id { get; set; }
 }
