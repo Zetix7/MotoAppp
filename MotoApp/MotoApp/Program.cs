@@ -18,11 +18,11 @@ static void AddEmployees(IRepository<Employee> repository)
     AddBatch(repository, employees);
 }
 
-static void AddBatch(IRepository<Employee> repository, IEnumerable<Employee> employees)
+static void AddBatch<T>(IRepository<T> repository, IEnumerable<T> items) where T : class,IEntity
 {
-    foreach (var employee in employees)
+    foreach (var item in items)
     {
-        repository.Add(employee);
+        repository.Add(item);
     }
     repository.Save();
 }
