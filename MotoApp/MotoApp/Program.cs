@@ -1,5 +1,6 @@
 ﻿using MotoApp.Data;
 using MotoApp.Entities;
+using MotoApp.Entities.Extensions;
 using MotoApp.Repositories;
 using MotoApp.Repositories.Extensions;
 
