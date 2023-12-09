@@ -8,9 +8,9 @@ repository.ItemAdded += EmployeeRepositoryOnItemAdded;
 AddEmployees(repository);
 WriteAllToConsole(repository);
 
-static void EmployeeRepositoryOnItemAdded(object sender, Employee e)
+static void EmployeeRepositoryOnItemAdded(object? sender, Employee e)
 {
-    Console.WriteLine($"Employee addded : {e.FirstName} form {sender.GetType().Name}");
+    Console.WriteLine($"Employee addded : {e.FirstName} form {sender?.GetType().Name}");
 }
 
 static void EmployeeAdded(Employee item)
