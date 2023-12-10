@@ -7,7 +7,6 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 {
     private readonly DbSet<T> _dbSet;
     private readonly DbContext _dbContext;
-    private readonly Action<T>? _itemAddedCallback;
 
     public SqlRepository(DbContext dbContext)
     {

@@ -102,18 +102,6 @@ static void EmployeeRepositoryOnItemRemoved(object? sender, Employee e)
     FillAuditFile("EmployeeRemovedFromRepository", e.FirstName!);
 }
 
-static void AddEmployees(IRepository<Employee> repository)
-{
-    var employees = new[]
-    {
-        new Employee { FirstName = "Greg"},
-        new Employee { FirstName = "Liz"},
-        new Employee { FirstName = "Chris"}
-    };
-
-    repository.AddBatch(employees);
-}
-
 static void WriteAllToConsole(IReadRepository<IEntity> repository)
 {
     foreach (var item in repository.GetAll())
