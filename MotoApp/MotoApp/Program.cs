@@ -70,24 +70,36 @@ do
     }
 } while (true);
 
+static void FillAuditFile(string action, string item)
+{
+    using(var writer = File.AppendText("audit.txt"))
+    {
+        writer.WriteLine($"[{DateTime.Now}]-{action,-29}-[{item}]");
+    }
+}
+
 static void EmployeeFileOnItemAdded(object? sender, Employee e)
 {
     Console.WriteLine($"\tAdded to file. Employee: {e.FirstName} execute from {sender?.GetType().Name}");
+    FillAuditFile("EmployeeAddedToFile", e.FirstName!);
 }
 
 static void EmployeesFileOnItemRead(object? sender, Employee e)
 {
     Console.WriteLine($"\tRead from file. Employee: {e.FirstName} execute from {sender?.GetType().Name}");
+    FillAuditFile("EmployeeReadFromFile", e.FirstName!);
 }
 
 static void EmployeeRepositoryOnItemAdded(object? sender, Employee e)
 {
     Console.WriteLine($"\tAdded to Repository. Employee: {e.FirstName} execute form {sender?.GetType().Name}");
+    FillAuditFile("EmployeeAddedToRepository", e.FirstName!);
 }
 
 static void EmployeeRepositoryOnItemRemoved(object? sender, Employee e)
 {
     Console.WriteLine($"\tRemoved from Repository. Employee: {e.FirstName} execute form {sender?.GetType().Name}");
+    FillAuditFile("EmployeeRemovedFromRepository", e.FirstName!);
 }
 
 static void AddEmployees(IRepository<Employee> repository)
