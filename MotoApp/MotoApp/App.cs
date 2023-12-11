@@ -71,6 +71,21 @@ public class App : IApp
         {
             Console.WriteLine(car);
         }
+
+        foreach (var car in _carsProvider.WhereStartsWith("Audi R"))
+        {
+            Console.WriteLine("\t" + car);
+        }
+
+        foreach (var car in _carsProvider.WhereStartsWithAndPriceGreaterThan("Audi R", 500000))
+        {
+            Console.WriteLine(car);
+        }
+
+        foreach (var car in _carsProvider.WhereColorIs("Green"))
+        {
+            Console.WriteLine("\t" + car);
+        }
     }
 
     public List<Car> GenerateSampleCars()

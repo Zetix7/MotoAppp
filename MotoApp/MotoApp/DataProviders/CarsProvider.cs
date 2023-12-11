@@ -1,4 +1,5 @@
-﻿using MotoApp.Entities;
+﻿using MotoApp.DataProviders.Extensions;
+using MotoApp.Entities;
 using MotoApp.Repositories;
 
 namespace MotoApp.DataProviders;
@@ -61,24 +62,42 @@ public class CarsProvider : ICarsProvider
     public List<Car> OrderByName()
     {
         var cars = _carsRepository.GetAll();
-        return cars.OrderBy(x=>x.Name).ToList();
+        return cars.OrderBy(x => x.Name).ToList();
     }
 
     public List<Car> OrderByNameDescending()
     {
         var cars = _carsRepository.GetAll();
-        return cars.OrderByDescending(x=>x.Name).ToList();
+        return cars.OrderByDescending(x => x.Name).ToList();
     }
 
     public List<Car> OrderByColorAndName()
     {
         var cars = _carsRepository.GetAll();
-        return cars.OrderBy(x=>x.Color).ThenBy(x=>x.Name).ToList();
+        return cars.OrderBy(x => x.Color).ThenBy(x => x.Name).ToList();
     }
 
     public List<Car> OrderByColorAndNameDescending()
     {
         var cars = _carsRepository.GetAll();
         return cars.OrderByDescending(x => x.Color).ThenByDescending(x => x.Name).ToList();
+    }
+
+    public List<Car> WhereStartsWith(string prefix)
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.Where(x => x.Name.StartsWith(prefix)).ToList();
+    }
+
+    public List<Car> WhereStartsWithAndPriceGreaterThan(string prefix, decimal price)
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.Where(x => x.Name.StartsWith(prefix) && x.Price > price).ToList();
+    }
+
+    public List<Car> WhereColorIs(string color)
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.ByColor(color).ToList();
     }
 }
