@@ -133,6 +133,15 @@ public class App : IApp
         {
             Console.WriteLine(car);
         }
+
+        foreach (var chunk in _carsProvider.ChunkCars(5))
+        {
+            foreach (var car in chunk)
+            {
+                Console.WriteLine("\t" + car);
+            }
+            Console.WriteLine();
+        }
     }
 
     public List<Car> GenerateSampleCars()
