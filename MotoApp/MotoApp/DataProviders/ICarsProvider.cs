@@ -32,4 +32,6 @@ public interface ICarsProvider
     List<Car> SkipCars(int howMany);
     List<Car> SkipCarsWhileNameStartsWith(string prefix);
 
+    List<string> DistinctAllColors();
+    List<Car> DistinctByColors();
 }

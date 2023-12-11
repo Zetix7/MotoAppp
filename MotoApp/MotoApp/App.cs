@@ -123,6 +123,16 @@ public class App : IApp
         {
             Console.WriteLine(car);
         }
+
+        foreach (var car in _carsProvider.DistinctAllColors())
+        {
+            Console.WriteLine("\t" + car);
+        }
+
+        foreach (var car in _carsProvider.DistinctByColors())
+        {
+            Console.WriteLine(car);
+        }
     }
 
     public List<Car> GenerateSampleCars()
