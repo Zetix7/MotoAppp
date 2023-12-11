@@ -86,6 +86,18 @@ public class App : IApp
         {
             Console.WriteLine("\t" + car);
         }
+
+        Console.WriteLine(_carsProvider.FirstByColor("Green"));
+
+        Console.WriteLine("\t" + _carsProvider.FirstOrDefaultByColor("DarkGreen"));
+        
+        Console.WriteLine(_carsProvider.FirstOrDefaultByColorWithDefault("Purple"));
+        
+        Console.WriteLine("\t" + _carsProvider.LastByColor("White"));
+        
+        Console.WriteLine(_carsProvider.SingleById(7));
+        
+        Console.WriteLine("\t" + _carsProvider.SingleOrDefaultById(77));
     }
 
     public List<Car> GenerateSampleCars()
