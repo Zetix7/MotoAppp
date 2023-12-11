@@ -8,4 +8,9 @@ public interface ICarsProvider
     List<string> GetUniqueColor();
     decimal GetMinimumPriceOfAllCars();
     string AnonymousClass();
+
+    List<Car> OrderByName();
+    List<Car> OrderByNameDescending();
+    List<Car> OrderByColorAndName();
+    List<Car> OrderByColorAndNameDescending();
 }

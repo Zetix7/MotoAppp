@@ -51,6 +51,26 @@ public class App : IApp
         
         Console.WriteLine(_carsProvider.GetMinimumPriceOfAllCars());
         Console.WriteLine(_carsProvider.AnonymousClass());
+
+        foreach(var car in _carsProvider.OrderByName())
+        {
+            Console.WriteLine("\t" + car);
+        }
+
+        foreach (var car in _carsProvider.OrderByNameDescending())
+        {
+            Console.WriteLine(car);
+        }
+
+        foreach (var car in _carsProvider.OrderByColorAndName())
+        {
+            Console.WriteLine("\t" + car);
+        }
+
+        foreach (var car in _carsProvider.OrderByColorAndNameDescending())
+        {
+            Console.WriteLine(car);
+        }
     }
 
     public List<Car> GenerateSampleCars()

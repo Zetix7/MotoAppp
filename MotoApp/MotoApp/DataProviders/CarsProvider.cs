@@ -57,4 +57,28 @@ public class CarsProvider : ICarsProvider
         var colors = cars.Select(x => x.Color).Distinct().ToList();
         return colors;
     }
+
+    public List<Car> OrderByName()
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.OrderBy(x=>x.Name).ToList();
+    }
+
+    public List<Car> OrderByNameDescending()
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.OrderByDescending(x=>x.Name).ToList();
+    }
+
+    public List<Car> OrderByColorAndName()
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.OrderBy(x=>x.Color).ThenBy(x=>x.Name).ToList();
+    }
+
+    public List<Car> OrderByColorAndNameDescending()
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.OrderByDescending(x => x.Color).ThenByDescending(x => x.Name).ToList();
+    }
 }
