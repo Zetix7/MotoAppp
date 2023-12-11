@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoApp", "MotoApp\MotoApp.csproj", "{519F9FB2-6213-490F-BEAD-AD65DEF5AB3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MotoApp", "MotoApp\MotoApp.csproj", "{519F9FB2-6213-490F-BEAD-AD65DEF5AB3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoApp.Tests", "MotoApp.Tests\MotoApp.Tests.csproj", "{9498A2B5-4284-41DE-8CAC-3013FF268175}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MotoApp.Tests", "MotoApp.Tests\MotoApp.Tests.csproj", "{9498A2B5-4284-41DE-8CAC-3013FF268175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
