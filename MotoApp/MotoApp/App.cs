@@ -98,6 +98,21 @@ public class App : IApp
         Console.WriteLine(_carsProvider.SingleById(7));
         
         Console.WriteLine("\t" + _carsProvider.SingleOrDefaultById(77));
+
+        foreach (var car in _carsProvider.TakeCars(7))
+        {
+            Console.WriteLine(car);
+        }
+
+        foreach (var car in _carsProvider.TakeCars(2..7))
+        {
+            Console.WriteLine("\t" + car);
+        }
+
+        foreach (var car in _carsProvider.TakeCarsWhileNameStartsWith("Audi A"))
+        {
+            Console.WriteLine(car);
+        }
     }
 
     public List<Car> GenerateSampleCars()

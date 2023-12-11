@@ -24,4 +24,8 @@ public interface ICarsProvider
     Car LastByColor(string color);
     Car SingleById(int id);
     Car? SingleOrDefaultById(int id);
+
+    List<Car> TakeCars(int howMany);
+    List<Car> TakeCars(Range range);
+    List<Car> TakeCarsWhileNameStartsWith(string prefix);
 }

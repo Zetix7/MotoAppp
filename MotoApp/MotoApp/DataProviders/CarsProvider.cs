@@ -135,4 +135,22 @@ public class CarsProvider : ICarsProvider
         var cars = _carsRepository.GetAll();
         return cars.SingleOrDefault(x => x.Id == id);
     }
+
+    public List<Car> TakeCars(int howMany)
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.Take(howMany).ToList();
+    }
+
+    public List<Car> TakeCars(Range range)
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.Take(range).ToList();
+    }
+
+    public List<Car> TakeCarsWhileNameStartsWith(string prefix)
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.TakeWhile(x=>x.Name.StartsWith(prefix)).ToList();
+    }
 }
