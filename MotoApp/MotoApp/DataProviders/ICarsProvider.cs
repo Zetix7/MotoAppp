@@ -4,7 +4,8 @@ namespace MotoApp.DataProviders;
 
 public interface ICarsProvider
 {
-    List<Car> FilterCars(decimal minPrice);
+    List<Car> SpecificColumn();
     List<string> GetUniqueColor();
     decimal GetMinimumPriceOfAllCars();
+    string AnonymousClass();
 }

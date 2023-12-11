@@ -39,7 +39,7 @@ public class App : IApp
         var cars = GenerateSampleCars();
         _carRepository.AddBatch(cars);
         
-        foreach (var car in _carsProvider.FilterCars(600000))
+        foreach (var car in _carsProvider.SpecificColumn())
         {
             Console.WriteLine(car);
         }
@@ -50,6 +50,7 @@ public class App : IApp
         }
         
         Console.WriteLine(_carsProvider.GetMinimumPriceOfAllCars());
+        Console.WriteLine(_carsProvider.AnonymousClass());
     }
 
     public List<Car> GenerateSampleCars()
