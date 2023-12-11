@@ -113,6 +113,16 @@ public class App : IApp
         {
             Console.WriteLine(car);
         }
+
+        foreach (var car in _carsProvider.SkipCars(21))
+        {
+            Console.WriteLine("\t" + car);
+        }
+
+        foreach (var car in _carsProvider.SkipCarsWhileNameStartsWith("Audi A"))
+        {
+            Console.WriteLine(car);
+        }
     }
 
     public List<Car> GenerateSampleCars()

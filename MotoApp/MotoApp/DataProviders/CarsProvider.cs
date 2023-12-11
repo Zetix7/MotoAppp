@@ -153,4 +153,16 @@ public class CarsProvider : ICarsProvider
         var cars = _carsRepository.GetAll();
         return cars.TakeWhile(x=>x.Name.StartsWith(prefix)).ToList();
     }
+
+    public List<Car> SkipCars(int howMany)
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.Skip(howMany).ToList();
+    }
+
+    public List<Car> SkipCarsWhileNameStartsWith(string prefix)
+    {
+        var cars = _carsRepository.GetAll();
+        return cars.SkipWhile(x=>x.Name.StartsWith(prefix)).ToList();
+    }
 }
