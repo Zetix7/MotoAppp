@@ -15,19 +15,41 @@ namespace MotoApp.Components.CsvReader
 
             var cars = File.ReadAllLines(filePath)
                 .Skip(1).Where(x => x.Length > 1).ToCar().ToList();
-                //.Select(x => x.Split(','))
-                //.Select(x => new Car
-                //{
-                //    Year = int.Parse(x[0], CultureInfo.InvariantCulture),
-                //    Manufacturer = x[1],
-                //    Name = x[2],
-                //    Displacement = double.Parse(x[3], CultureInfo.InvariantCulture),
-                //    Cylinders = int.Parse(x[4], CultureInfo.InvariantCulture),
-                //    City = int.Parse(x[5], CultureInfo.InvariantCulture),
-                //    Highway = int.Parse(x[6], CultureInfo.InvariantCulture),
-                //    Combined = int.Parse(x[7], CultureInfo.InvariantCulture),
-                //}).ToList();
+            //.Select(x => x.Split(','))
+            //.Select(x => new Car
+            //{
+            //    Year = int.Parse(x[0], CultureInfo.InvariantCulture),
+            //    Manufacturer = x[1],
+            //    Name = x[2],
+            //    Displacement = double.Parse(x[3], CultureInfo.InvariantCulture),
+            //    Cylinders = int.Parse(x[4], CultureInfo.InvariantCulture),
+            //    City = int.Parse(x[5], CultureInfo.InvariantCulture),
+            //    Highway = int.Parse(x[6], CultureInfo.InvariantCulture),
+            //    Combined = int.Parse(x[7], CultureInfo.InvariantCulture),
+            //}).ToList();
             return cars;
+        }
+
+        public List<Manufacturer> ProcessManufacturers(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                return new List<Manufacturer>();
+            }
+
+            var manufacturers = File.ReadAllLines(filePath)
+                .Where(x => x.Length > 1)
+                .Select(x =>
+                {
+                    var columns = x.Split(',');
+                    return new Manufacturer
+                    {
+                        Name = columns[0],
+                        Country = columns[1],
+                        Year = int.Parse(columns[2], CultureInfo.InvariantCulture),
+                    };
+                });
+            return manufacturers.ToList();
         }
     }
 }

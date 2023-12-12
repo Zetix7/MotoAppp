@@ -45,16 +45,25 @@ public class UserCommunication : IUserCommunication
             }
             else if (choise == "3")
             {
+                Console.WriteLine("fuel.csv");
                 var cars = _csvReader.ProcessCars("Resources//Files//fuel.csv");
                 foreach (var car in cars.Where(x=>x.Manufacturer == "Audi"))
                 {
-                    Console.WriteLine(car.Year);
-                    Console.WriteLine($"\t{car.Manufacturer} {car.Name}");
+                    Console.WriteLine($"{car.Year} {car.Manufacturer} {car.Name}");
                     Console.WriteLine("\tDisplacement: " + car.Displacement);
                     Console.WriteLine("\tCylinders: " + car.Cylinders);
                     Console.WriteLine("\tCity: " + car.City);
                     Console.WriteLine("\tHighway: " + car.Highway);
                     Console.WriteLine("\tCombined: " + car.Combined);
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("manufacturers.csv");
+
+                var manufacturers = _csvReader.ProcessManufacturers("Resources//Files//manufacturers.csv");
+                foreach(var manufacturer in manufacturers)
+                {
+                    Console.WriteLine($"\t{manufacturer.Name} {manufacturer.Country} {manufacturer.Year}");
                 }
             }
             else
