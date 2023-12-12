@@ -51,5 +51,25 @@ internal class CsvReaderApp : ICsvReaderApp
             Console.WriteLine($"\tName: {car.Name}");
             Console.WriteLine($"\tCombined: {car.Combined}");
         }
+
+        var groupJoin = manufacturers.GroupJoin(
+            cars,
+            m => m.Name,
+            c => c.Manufacturer,
+            (manufacturer, cars) => new
+            {
+                Manufacturer = manufacturer,
+                Cars = cars
+            })
+            .OrderBy(x => x.Manufacturer.Name);
+
+        foreach (var group in groupJoin)
+        {
+            Console.WriteLine($"{group.Manufacturer.Name}");
+            Console.WriteLine($"\tCars: {group.Cars.Count()}");
+            Console.WriteLine($"\tMin: {group.Cars.Min(x=>x.Combined)}");
+            Console.WriteLine($"\tMax: {group.Cars.Max(x => x.Combined)}");
+            Console.WriteLine($"\tAverage: {Math.Floor(group.Cars.Average(x => x.Combined))}");
+        }
     }
 }
