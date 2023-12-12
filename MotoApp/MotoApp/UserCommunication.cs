@@ -47,28 +47,26 @@ public class UserCommunication : IUserCommunication
             {
                 Console.WriteLine("fuel.csv");
                 var cars = _csvReader.ProcessCars("Resources//Files//fuel.csv");
-                foreach (var car in cars.Where(x=>x.Manufacturer == "Audi"))
-                {
-                    Console.WriteLine($"{car.Year} {car.Manufacturer} {car.Name}");
-                    Console.WriteLine("\tDisplacement: " + car.Displacement);
-                    Console.WriteLine("\tCylinders: " + car.Cylinders);
-                    Console.WriteLine("\tCity: " + car.City);
-                    Console.WriteLine("\tHighway: " + car.Highway);
-                    Console.WriteLine("\tCombined: " + car.Combined);
-                }
-
-                Console.WriteLine();
-                Console.WriteLine("manufacturers.csv");
-
                 var manufacturers = _csvReader.ProcessManufacturers("Resources//Files//manufacturers.csv");
-                foreach(var manufacturer in manufacturers)
+                
+                var groups = cars.GroupBy(x => x.Manufacturer)
+                    .Select(x=> new
+                    {
+                        Name = x.Key,
+                        Max = x.Max(x=>x.Combined),
+                        Average = x.Average(x=>x.Combined)
+                    });
+
+                foreach(var group in groups)
                 {
-                    Console.WriteLine($"\t{manufacturer.Name} {manufacturer.Country} {manufacturer.Year}");
+                    Console.WriteLine($"{group.Name}");
+                    Console.WriteLine($"\tMax: {group.Max}");
+                    Console.WriteLine($"\tAverage: {group.Average:0}");
                 }
             }
             else
             {
-                Console.WriteLine("Choose 1 or 2 or Q! No more options!");
+                Console.WriteLine("Choose 1 or 2 or 3 or Q! No more options!");
                 Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
             }
         } while (true);
