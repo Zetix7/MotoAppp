@@ -3,7 +3,7 @@ using MotoApp.Data.Entities;
 using MotoApp.Data.Repositories;
 using MotoApp.Data.Repositories.Extensions;
 
-namespace MotoApp.Components;
+namespace MotoApp.Components.CarApp;
 
 public class CarApp : ICarApp
 {

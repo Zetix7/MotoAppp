@@ -4,7 +4,7 @@ using MotoApp.Data.Entities;
 using MotoApp.Data.Repositories;
 using System.Drawing;
 
-namespace MotoApp.Components;
+namespace MotoApp.Components.EmployeeApp;
 
 public class EmployeeApp : IEmployeeApp
 {

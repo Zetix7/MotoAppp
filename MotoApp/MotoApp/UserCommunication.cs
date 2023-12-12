@@ -1,5 +1,6 @@
-﻿using MotoApp.Components;
-using MotoApp.Components.CsvReader;
+﻿using MotoApp.Components.CarApp;
+using MotoApp.Components.CsvReaderApp;
+using MotoApp.Components.EmployeeApp;
 
 namespace MotoApp;
 
@@ -7,13 +8,13 @@ public class UserCommunication : IUserCommunication
 {
     private IEmployeeApp _employeeApp;
     private ICarApp _carApp;
-    private ICsvReader _csvReader;
+    private ICsvReaderApp _csvReaderApp;
 
-    public UserCommunication(IEmployeeApp employeeApp, ICarApp carApp, ICsvReader csvReader)
+    public UserCommunication(IEmployeeApp employeeApp, ICarApp carApp, ICsvReaderApp csvReaderApp)
     {
         _employeeApp = employeeApp;
         _carApp = carApp;
-        _csvReader = csvReader;
+        _csvReaderApp = csvReaderApp;
     }
 
     public void Run()
@@ -45,24 +46,7 @@ public class UserCommunication : IUserCommunication
             }
             else if (choise == "3")
             {
-                Console.WriteLine("fuel.csv");
-                var cars = _csvReader.ProcessCars("Resources//Files//fuel.csv");
-                var manufacturers = _csvReader.ProcessManufacturers("Resources//Files//manufacturers.csv");
-                
-                var groups = cars.GroupBy(x => x.Manufacturer)
-                    .Select(x=> new
-                    {
-                        Name = x.Key,
-                        Max = x.Max(x=>x.Combined),
-                        Average = x.Average(x=>x.Combined)
-                    });
-
-                foreach(var group in groups)
-                {
-                    Console.WriteLine($"{group.Name}");
-                    Console.WriteLine($"\tMax: {group.Max}");
-                    Console.WriteLine($"\tAverage: {group.Average:0}");
-                }
+                _csvReaderApp.Run();
             }
             else
             {
