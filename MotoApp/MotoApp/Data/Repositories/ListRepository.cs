@@ -1,6 +1,6 @@
-﻿using MotoApp.Entities;
+﻿using MotoApp.Data.Entities;
 
-namespace MotoApp.Repositories;
+namespace MotoApp.Data.Repositories;
 
 public class ListRepository<T> : IRepository<T>
     where T : class, IEntity, new()

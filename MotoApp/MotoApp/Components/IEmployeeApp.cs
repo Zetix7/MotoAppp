@@ -1,4 +1,4 @@
-﻿namespace MotoApp;
+﻿namespace MotoApp.Components;
 
 public interface IEmployeeApp
 {

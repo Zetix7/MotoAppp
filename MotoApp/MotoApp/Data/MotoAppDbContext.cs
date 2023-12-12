@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MotoApp.Entities;
+using MotoApp.Data.Entities;
 
 namespace MotoApp.Data;
 

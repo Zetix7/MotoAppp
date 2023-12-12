@@ -1,8 +1,8 @@
-﻿using MotoApp.DataProviders.Extensions;
-using MotoApp.Entities;
-using MotoApp.Repositories;
+﻿using MotoApp.Components.DataProviders.Extensions;
+using MotoApp.Data.Entities;
+using MotoApp.Data.Repositories;
 
-namespace MotoApp.DataProviders;
+namespace MotoApp.Components.DataProviders;
 
 public class CarsProvider : ICarsProvider
 {
@@ -151,7 +151,7 @@ public class CarsProvider : ICarsProvider
     public List<Car> TakeCarsWhileNameStartsWith(string prefix)
     {
         var cars = _carsRepository.GetAll();
-        return cars.TakeWhile(x=>x.Name.StartsWith(prefix)).ToList();
+        return cars.TakeWhile(x => x.Name.StartsWith(prefix)).ToList();
     }
 
     public List<Car> SkipCars(int howMany)
@@ -163,19 +163,19 @@ public class CarsProvider : ICarsProvider
     public List<Car> SkipCarsWhileNameStartsWith(string prefix)
     {
         var cars = _carsRepository.GetAll();
-        return cars.SkipWhile(x=>x.Name.StartsWith(prefix)).ToList();
+        return cars.SkipWhile(x => x.Name.StartsWith(prefix)).ToList();
     }
 
     public List<string> DistinctAllColors()
     {
         var cars = _carsRepository.GetAll();
-        return cars.Select(x=>x.Color).Distinct().ToList();
+        return cars.Select(x => x.Color).Distinct().ToList();
     }
 
     public List<Car> DistinctByColors()
     {
         var cars = _carsRepository.GetAll();
-        return cars.DistinctBy(x=>x.Color).ToList();
+        return cars.DistinctBy(x => x.Color).ToList();
     }
 
     public List<Car[]> ChunkCars(int size)

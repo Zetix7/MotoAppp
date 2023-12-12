@@ -1,4 +1,6 @@
-﻿namespace MotoApp;
+﻿using MotoApp.Components;
+
+namespace MotoApp;
 
 public class UserCommunication : IUserCommunication
 {

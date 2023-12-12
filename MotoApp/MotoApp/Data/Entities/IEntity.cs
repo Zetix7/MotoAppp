@@ -1,4 +1,4 @@
-﻿namespace MotoApp.Entities;
+﻿namespace MotoApp.Data.Entities;
 
 public interface IEntity
 {

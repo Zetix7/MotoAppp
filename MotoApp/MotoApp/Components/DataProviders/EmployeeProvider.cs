@@ -1,7 +1,7 @@
-﻿using MotoApp.Entities;
-using MotoApp.Repositories;
+﻿using MotoApp.Data.Entities;
+using MotoApp.Data.Repositories;
 
-namespace MotoApp.DataProviders;
+namespace MotoApp.Components.DataProviders;
 
 public class EmployeeProvider : IEmployeeProvider
 {

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
+using MotoApp.Data.Entities;
 
-namespace MotoApp.Entities.Extensions;
+namespace MotoApp.Data.Entities.Extensions;
 
 public static class EntityExtension
 {

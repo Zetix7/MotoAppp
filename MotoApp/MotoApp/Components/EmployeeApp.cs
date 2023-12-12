@@ -1,10 +1,10 @@
-﻿using MotoApp.Data;
-using MotoApp.DataProviders;
-using MotoApp.Entities;
-using MotoApp.Repositories;
+﻿using MotoApp.Components.DataProviders;
+using MotoApp.Data;
+using MotoApp.Data.Entities;
+using MotoApp.Data.Repositories;
 using System.Drawing;
 
-namespace MotoApp;
+namespace MotoApp.Components;
 
 public class EmployeeApp : IEmployeeApp
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MotoApp.Entities;
+using MotoApp.Data.Entities;
 
-namespace MotoApp.Repositories;
+namespace MotoApp.Data.Repositories;
 
 public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 {

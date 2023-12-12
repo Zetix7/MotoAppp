@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MotoApp;
-using MotoApp.DataProviders;
-using MotoApp.Entities;
-using MotoApp.Repositories;
+using MotoApp.Components;
+using MotoApp.Components.DataProviders;
+using MotoApp.Data.Entities;
+using MotoApp.Data.Repositories;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();
