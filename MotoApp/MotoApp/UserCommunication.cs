@@ -6,9 +6,9 @@ namespace MotoApp;
 
 public class UserCommunication : IUserCommunication
 {
-    private IEmployeeApp _employeeApp;
-    private ICarApp _carApp;
-    private ICsvReaderApp _csvReaderApp;
+    private readonly IEmployeeApp _employeeApp;
+    private readonly ICarApp _carApp;
+    private readonly ICsvReaderApp _csvReaderApp;
 
     public UserCommunication(IEmployeeApp employeeApp, ICarApp carApp, ICsvReaderApp csvReaderApp)
     {
