@@ -34,6 +34,7 @@ internal class CsvReaderApp : ICsvReaderApp
             Console.WriteLine("\t6 - Print datas and create manufacturersFuel.xml file");
             Console.WriteLine("\t7 - Insert Cars data to MotoAppStorage database (NOW COMMENTED!!)");
             Console.WriteLine("\t8 - Read Cars data from MotoAppStorage database");
+            Console.WriteLine("\t9 - Update car Name data in MotoAppStorage database");
             Console.WriteLine("\tQ - Exit");
             Console.Write("\t\tYour choise: ");
             var choise = Console.ReadLine();
@@ -74,12 +75,23 @@ internal class CsvReaderApp : ICsvReaderApp
             {
                 ReadCarsFromMotoAppStorageAndPrintResult();
             }
+            else if (choise == "9")
+            {
+                UpdateCarNameInMotoAppStorage();
+            }
             else
             {
-                Console.WriteLine("Choose just  one from 1 to 8 or Q! No more options!");
+                Console.WriteLine("Choose just  one from 1 to 9 or Q! No more options!");
                 Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
             }
         } while (true);
+    }
+
+    private void UpdateCarNameInMotoAppStorage()
+    {
+        var alfaRomeo = _motoAppDbContext.Cars.FirstOrDefault(x => x.Manufacturer == "ALFA ROMEO");
+        alfaRomeo!.Name = "4C";
+        _motoAppDbContext.SaveChanges();
     }
 
     private void ReadCarsFromMotoAppStorageAndPrintResult()
