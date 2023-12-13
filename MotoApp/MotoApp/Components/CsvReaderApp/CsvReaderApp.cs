@@ -35,6 +35,7 @@ internal class CsvReaderApp : ICsvReaderApp
             Console.WriteLine("\t7 - Insert Cars data to MotoAppStorage database (NOW COMMENTED!!)");
             Console.WriteLine("\t8 - Read Cars data from MotoAppStorage database");
             Console.WriteLine("\t9 - Update car Name data in MotoAppStorage database");
+            Console.WriteLine("\t10 - Remove car from MotoAppStorage database");
             Console.WriteLine("\tQ - Exit");
             Console.Write("\t\tYour choise: ");
             var choise = Console.ReadLine();
@@ -79,12 +80,23 @@ internal class CsvReaderApp : ICsvReaderApp
             {
                 UpdateCarNameInMotoAppStorage();
             }
+            else if (choise == "9")
+            {
+                RemoveCarFromMotoAppStorage();
+            }
             else
             {
                 Console.WriteLine("Choose just  one from 1 to 9 or Q! No more options!");
                 Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
             }
         } while (true);
+    }
+
+    private void RemoveCarFromMotoAppStorage()
+    {
+        var alfaRomeo = _motoAppDbContext.Cars.FirstOrDefault(x => x.Manufacturer == "ALFA ROMEO");
+        _motoAppDbContext.Cars.Remove(alfaRomeo!);
+        _motoAppDbContext.SaveChanges();
     }
 
     private void UpdateCarNameInMotoAppStorage()
