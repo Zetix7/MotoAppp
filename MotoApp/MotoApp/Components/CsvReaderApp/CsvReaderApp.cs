@@ -32,7 +32,7 @@ internal class CsvReaderApp : ICsvReaderApp
             Console.WriteLine("\t4 - Create fuel.xml file");
             Console.WriteLine("\t5 - Read fuel.xml file");
             Console.WriteLine("\t6 - Print datas and create manufacturersFuel.xml file");
-            Console.WriteLine("\t7 - Insert Cars data to MotoAppStorage database");
+            Console.WriteLine("\t7 - Insert Cars data to MotoAppStorage database (NOW COMMENTED!!)");
             Console.WriteLine("\t8 - Read Cars data from MotoAppStorage database");
             Console.WriteLine("\tQ - Exit");
             Console.Write("\t\tYour choise: ");
@@ -68,7 +68,11 @@ internal class CsvReaderApp : ICsvReaderApp
             }
             else if (choise == "7")
             {
-                InsertDataToDatabase(cars);
+                //InsertDataToDatabase(cars);
+            }
+            else if (choise == "8")
+            {
+                ReadCarsFromMotoAppStorageAndPrintResult();
             }
             else
             {
@@ -76,6 +80,24 @@ internal class CsvReaderApp : ICsvReaderApp
                 Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
             }
         } while (true);
+    }
+
+    private void ReadCarsFromMotoAppStorageAndPrintResult()
+    {
+        var carsFromDatabase = _motoAppDbContext.Cars
+                            .GroupBy(x => x.Manufacturer)
+                            .Select(x => new CsvReader.Models.Car
+                            {
+                                Manufacturer = x.Key,
+                                Combined = x.Sum(x => x.Combined),
+                            })
+                            .OrderBy(x => x.Manufacturer)
+                            .Distinct().ToList();
+
+        foreach (var car in carsFromDatabase)
+        {
+            Console.WriteLine($"\t{car.Manufacturer} - Combined: {car.Combined}");
+        }
     }
 
     private static void CreateManufacturersFuelXmlFileAndShowResult(List<CsvReader.Models.Car> cars, List<CsvReader.Models.Manufacturer> manufacturers)
