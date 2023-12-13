@@ -76,7 +76,7 @@ internal class CsvReaderApp : ICsvReaderApp
             }
             else
             {
-                Console.WriteLine("Choose 1 or 2 or 3 or 4 or 5 or 6 or Q! No more options!");
+                Console.WriteLine("Choose just  one from 1 to 8 or Q! No more options!");
                 Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
             }
         } while (true);
@@ -84,19 +84,19 @@ internal class CsvReaderApp : ICsvReaderApp
 
     private void ReadCarsFromMotoAppStorageAndPrintResult()
     {
-        var carsFromDatabase = _motoAppDbContext.Cars
+        var groups = _motoAppDbContext.Cars
                             .GroupBy(x => x.Manufacturer)
-                            .Select(x => new CsvReader.Models.Car
+                            .Select(x => new 
                             {
                                 Manufacturer = x.Key,
-                                Combined = x.Sum(x => x.Combined),
+                                Cars = x.ToList(),
                             })
                             .OrderBy(x => x.Manufacturer)
-                            .Distinct().ToList();
+                            .ToList();
 
-        foreach (var car in carsFromDatabase)
+        foreach (var group in groups)
         {
-            Console.WriteLine($"\t{car.Manufacturer} - Combined: {car.Combined}");
+            Console.WriteLine($"\t{group.Manufacturer} - Combined: {group.Cars.Sum(x=>x.Combined)}");
         }
     }
 
