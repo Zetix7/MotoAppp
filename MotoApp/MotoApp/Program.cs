@@ -5,6 +5,7 @@ using MotoApp.Components.CsvReader;
 using MotoApp.Components.CsvReaderApp;
 using MotoApp.Components.DataProviders;
 using MotoApp.Components.EmployeeApp;
+using MotoApp.Components.XmlReader;
 using MotoApp.Data;
 using MotoApp.Data.Entities;
 using MotoApp.Data.Repositories;
@@ -20,6 +21,7 @@ services.AddSingleton<ICsvReader, CsvReader>();
 services.AddSingleton<ICsvReaderApp, CsvReaderApp>();
 services.AddDbContext<MotoAppDbContext>(options => options
     .UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=MotoAppStorage;Integrated Security=True;Encrypt=False"));
+services.AddSingleton<IXmlReader, XmlReader>();
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>()!;

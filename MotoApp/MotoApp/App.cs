@@ -2,7 +2,7 @@
 
 public class App : IApp
 {
-    private IUserCommunication _userComunication;
+    private readonly IUserCommunication _userComunication;
 
     public App(IUserCommunication userComunication)
     {

@@ -58,29 +58,17 @@ internal class CsvReaderApp : ICsvReaderApp
             }
             else if (choise == "4")
             {
-                CreateFuelXmlFile(cars);
+                //InsertDataToDatabase(cars);
             }
             else if (choise == "5")
             {
-                ReadFuelXmlFile();
+                ReadCarsFromMotoAppStorageAndPrintResult();
             }
             else if (choise == "6")
             {
-                CreateManufacturersFuelXmlFileAndShowResult(cars, manufacturers);
-            }
-            else if (choise == "7")
-            {
-                //InsertDataToDatabase(cars);
-            }
-            else if (choise == "8")
-            {
-                ReadCarsFromMotoAppStorageAndPrintResult();
-            }
-            else if (choise == "9")
-            {
                 UpdateCarNameInMotoAppStorage();
             }
-            else if (choise == "9")
+            else if (choise == "7")
             {
                 RemoveCarFromMotoAppStorage();
             }
@@ -122,72 +110,6 @@ internal class CsvReaderApp : ICsvReaderApp
         {
             Console.WriteLine($"\t{group.Manufacturer} - Combined: {group.Cars.Sum(x=>x.Combined)}");
         }
-    }
-
-    private static void CreateManufacturersFuelXmlFileAndShowResult(List<CsvReader.Models.Car> cars, List<CsvReader.Models.Manufacturer> manufacturers)
-    {
-        var group = manufacturers.GroupJoin(
-                            cars,
-                            x => x.Name,
-                            x => x.Manufacturer,
-                            (manufactuerer, cars) => new
-                            {
-                                Manufacturer = manufactuerer,
-                                Cars = cars
-                            });
-
-        foreach (var g in group)
-        {
-            Console.WriteLine($"Manufacturer - {g.Manufacturer.Name}, Country: {g.Manufacturer.Country}");
-            Console.WriteLine($"\tCars - CombinedSum: {g.Cars.Sum(x => x.Combined)}");
-            foreach (var car in g.Cars)
-            {
-                Console.WriteLine($"\t\tCar - {car.Name} Combined: {car.Combined}");
-            }
-        }
-
-        var document = new XDocument();
-        var manufacturersXml = new XElement("Manufacturers", group
-            .Select(x =>
-                new XElement("Manufacturer",
-                    new XAttribute("Name", x.Manufacturer.Name!),
-                    new XAttribute("Country", x.Manufacturer.Country!),
-                    new XElement("Cars", x.Cars.Select(x =>
-                        new XElement("Car",
-                            new XAttribute("Model", x.Name!),
-                            new XAttribute("Combined", x.Combined))),
-                        new XAttribute("Country", x.Manufacturer.Country!),
-                        new XAttribute("CombinedSum", x.Cars.Sum(x => x.Combined)!)))));
-        document.Add(manufacturersXml);
-        document.Save("Resources//Files//manufacturersFuel.xml");
-    }
-
-    private static void ReadFuelXmlFile()
-    {
-        var document = XDocument.Load("Resources//Files//fuel.xml");
-        var manufacturersXml = document
-            .Element("Cars")?
-            .Elements("Car")
-            .Select(x => x.Attribute("Manufacturer")?.Value).Distinct().Order();
-
-        foreach (var manufacturerXml in manufacturersXml!)
-        {
-            Console.WriteLine(manufacturerXml);
-        }
-    }
-
-    private static void CreateFuelXmlFile(List<CsvReader.Models.Car> cars)
-    {
-        var document = new XDocument();
-
-        document.Add(
-            new XElement("Cars", cars
-            .Select(x =>
-                new XElement("Car",
-                    new XAttribute("Name", x.Name!),
-                    new XAttribute("Combined", x.Combined),
-                    new XAttribute("Manufacturer", x.Manufacturer!)))));
-        document.Save("Resources//Files//fuel.xml");
     }
 
     private static void GroupJoinAndShowResult(List<CsvReader.Models.Car> cars, List<CsvReader.Models.Manufacturer> manufacturers)
