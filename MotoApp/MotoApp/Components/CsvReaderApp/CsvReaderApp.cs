@@ -1,7 +1,6 @@
 ﻿using MotoApp.Components.CsvReader;
 using MotoApp.Data;
 using MotoApp.Data.Entities;
-using System.Xml.Linq;
 
 namespace MotoApp.Components.CsvReaderApp;
 
@@ -29,13 +28,6 @@ internal class CsvReaderApp : ICsvReaderApp
             Console.WriteLine("\t1 - GroupBy");
             Console.WriteLine("\t2 - Join");
             Console.WriteLine("\t3 - GroupJoin");
-            Console.WriteLine("\t4 - Create fuel.xml file");
-            Console.WriteLine("\t5 - Read fuel.xml file");
-            Console.WriteLine("\t6 - Print datas and create manufacturersFuel.xml file");
-            Console.WriteLine("\t7 - Insert Cars data to MotoAppStorage database (NOW COMMENTED!!)");
-            Console.WriteLine("\t8 - Read Cars data from MotoAppStorage database");
-            Console.WriteLine("\t9 - Update car Name data in MotoAppStorage database");
-            Console.WriteLine("\t10 - Remove car from MotoAppStorage database");
             Console.WriteLine("\tQ - Exit");
             Console.Write("\t\tYour choise: ");
             var choise = Console.ReadLine();
@@ -56,62 +48,13 @@ internal class CsvReaderApp : ICsvReaderApp
             {
                 GroupJoinAndShowResult(cars, manufacturers);
             }
-            else if (choise == "4")
-            {
-                //InsertDataToDatabase(cars);
-            }
-            else if (choise == "5")
-            {
-                ReadCarsFromMotoAppStorageAndPrintResult();
-            }
-            else if (choise == "6")
-            {
-                UpdateCarNameInMotoAppStorage();
-            }
-            else if (choise == "7")
-            {
-                RemoveCarFromMotoAppStorage();
-            }
             else
             {
-                Console.WriteLine("Choose just  one from 1 to 9 or Q! No more options!");
+                Console.WriteLine("Choose just  one from 1 to 3 or Q! No more options!");
                 Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
             }
         } while (true);
     }
-
-    private void RemoveCarFromMotoAppStorage()
-    {
-        var alfaRomeo = _motoAppDbContext.Cars.FirstOrDefault(x => x.Manufacturer == "ALFA ROMEO");
-        _motoAppDbContext.Cars.Remove(alfaRomeo!);
-        _motoAppDbContext.SaveChanges();
-    }
-
-    private void UpdateCarNameInMotoAppStorage()
-    {
-        var alfaRomeo = _motoAppDbContext.Cars.FirstOrDefault(x => x.Manufacturer == "ALFA ROMEO");
-        alfaRomeo!.Name = "4C";
-        _motoAppDbContext.SaveChanges();
-    }
-
-    private void ReadCarsFromMotoAppStorageAndPrintResult()
-    {
-        var groups = _motoAppDbContext.Cars
-                            .GroupBy(x => x.Manufacturer)
-                            .Select(x => new 
-                            {
-                                Manufacturer = x.Key,
-                                Cars = x.ToList(),
-                            })
-                            .OrderBy(x => x.Manufacturer)
-                            .ToList();
-
-        foreach (var group in groups)
-        {
-            Console.WriteLine($"\t{group.Manufacturer} - Combined: {group.Cars.Sum(x=>x.Combined)}");
-        }
-    }
-
     private static void GroupJoinAndShowResult(List<CsvReader.Models.Car> cars, List<CsvReader.Models.Manufacturer> manufacturers)
     {
         var groupJoin = manufacturers.GroupJoin(
@@ -174,24 +117,5 @@ internal class CsvReaderApp : ICsvReaderApp
             Console.WriteLine($"\tMax: {group.Max}");
             Console.WriteLine($"\tAverage: {group.Average:0}");
         }
-    }
-
-    private void InsertDataToDatabase(List<CsvReader.Models.Car> cars)
-    {
-        foreach (var car in cars)
-        {
-            _motoAppDbContext.Cars.Add(new Car
-            {
-                Year = car.Year,
-                Manufacturer = car.Manufacturer,
-                Name = car.Name,
-                Displacement = car.Displacement,
-                Cylinders = car.Cylinders,
-                City = car.City,
-                Highway = car.Highway,
-                Combined = car.Combined
-            });
-        }
-        _motoAppDbContext.SaveChanges();
     }
 }
