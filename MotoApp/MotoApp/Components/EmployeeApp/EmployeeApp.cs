@@ -23,7 +23,8 @@ public class EmployeeApp : IEmployeeApp
         _employeeRepository.ItemAdded += EmployeeRepositoryOnItemAdded;
         _employeeRepository.ItemRemoved += EmployeeRepositoryOnItemRemoved;
 
-        Console.WriteLine("Welcome in part of Employees Mangement App\n");
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("Welcome in part of Employees Mangement App");
 
         do
         {

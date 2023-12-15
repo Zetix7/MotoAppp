@@ -1,6 +1,5 @@
 ﻿using MotoApp.Components.CsvReader;
 using MotoApp.Data;
-using MotoApp.Data.Entities;
 
 namespace MotoApp.Components.CsvReaderApp;
 

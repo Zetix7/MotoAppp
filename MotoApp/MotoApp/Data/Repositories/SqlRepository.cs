@@ -8,7 +8,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     private readonly DbSet<T> _dbSet;
     private readonly DbContext _dbContext;
 
-    public SqlRepository(DbContext dbContext)
+    public SqlRepository(MotoAppDbContext dbContext)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<T>();

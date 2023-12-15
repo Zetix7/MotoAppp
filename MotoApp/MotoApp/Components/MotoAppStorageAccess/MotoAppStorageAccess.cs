@@ -1,23 +1,23 @@
 ﻿using MotoApp.Components.CsvReader;
-using MotoApp.Data;
 using MotoApp.Data.Entities;
 using MotoApp.Data.Repositories;
-using MotoApp.Data.Repositories.Extensions;
 
 namespace MotoApp.Components.MotoAppStorageAccess;
 
 public class MotoAppStorageAccess : IMotoAppStorageAccess
 {
     private readonly ICsvReader _csvReader;
-    private readonly MotoAppDbContext _motoAppDbContext;
+    private readonly IRepository<Car> _carsRepository;
+    private readonly IRepository<Manufacturer> _manufacturersRepository;
 
     public MotoAppStorageAccess(
         ICsvReader csvReader,
-        MotoAppDbContext motoAppDbContext)
+        IRepository<Car> carsRepository,
+        IRepository<Manufacturer> manufacturersRepository)
     {
         _csvReader = csvReader;
-        _motoAppDbContext = motoAppDbContext;
-        _motoAppDbContext.Database.EnsureCreated();
+        _carsRepository = carsRepository;
+        _manufacturersRepository = manufacturersRepository;
     }
 
     public void InsertCarsToDatabase()
@@ -26,7 +26,7 @@ public class MotoAppStorageAccess : IMotoAppStorageAccess
 
         foreach (var car in cars)
         {
-            _motoAppDbContext.Cars.Add(new Car
+            _carsRepository.Add(new Car
             {
                 Year = car.Year,
                 Manufacturer = car.Manufacturer,
@@ -38,7 +38,7 @@ public class MotoAppStorageAccess : IMotoAppStorageAccess
                 Combined = car.Combined
             });
         }
-        _motoAppDbContext.SaveChanges();
+        _carsRepository.Save();
     }
 
     public void InsertManufacturersToDatabase()
@@ -47,61 +47,69 @@ public class MotoAppStorageAccess : IMotoAppStorageAccess
 
         foreach (var manufacturer in manufacturers)
         {
-            _motoAppDbContext.Manufacturers.Add(new Manufacturer
+            _manufacturersRepository.Add(new Manufacturer
             {
                 Name = manufacturer.Name,
                 Country = manufacturer.Country,
                 Year = manufacturer.Year
             });
         }
-        _motoAppDbContext.SaveChanges();
+        _manufacturersRepository.Save();
     }
 
     public void ReadCarsFromDatabase()
     {
-        var cars = _motoAppDbContext.Cars.ToList();
-
-        foreach (var car in cars)
+        foreach (var car in _carsRepository.GetAll())
         {
-            Console.WriteLine($"{car.Id:5} {car.Manufacturer} {car.Name} - Combined: {car.Combined}");
+            Console.WriteLine($"{car.Id,5}. {car.Manufacturer} {car.Name} - Combined: {car.Combined}");
         }
     }
 
     public void ReadManufacturersFromDatabase()
     {
-        var manufacturers = _motoAppDbContext.Manufacturers.ToList();
-
-        foreach(var manufacturer in manufacturers)
+        foreach (var manufacturer in _manufacturersRepository.GetAll())
         {
-            Console.WriteLine($"{manufacturer.Name} {manufacturer.Country} {manufacturer.Year}");
+            Console.WriteLine($"{manufacturer.Id,5}. | {manufacturer.Name} | {manufacturer.Country} | {manufacturer.Year}");
         }
     }
 
     public void RemoveCarByNameFromDatabase(string name)
     {
-        var car = _motoAppDbContext.Cars.SingleOrDefault(x => x.Name == name);
-        _motoAppDbContext.Cars.Remove(car!);
-        _motoAppDbContext.SaveChanges();
+        var car = _carsRepository.GetAll().FirstOrDefault(x => x.Name == name);
+        if (car != null)
+        {
+            _carsRepository.Remove(car!);
+            _carsRepository.Save();
+        }
     }
 
     public void RemoveManufacturerByNameFromDatabase(string name)
     {
-        var manufacturer = _motoAppDbContext.Manufacturers.SingleOrDefault(x=>x.Name == name);
-        _motoAppDbContext.Manufacturers.Remove(manufacturer!);
-        _motoAppDbContext.SaveChanges();
+        var manufacturer = _manufacturersRepository.GetAll().FirstOrDefault(x=>x.Name == name);
+        if (manufacturer != null)
+        {
+            _manufacturersRepository.Remove(manufacturer!);
+            _manufacturersRepository.Save();
+        }
     }
 
     public void UpdateCarNameInDatabase(string oldName, string newName)
     {
-        var car = _motoAppDbContext.Cars.SingleOrDefault(x=> x.Name == oldName);
-        car!.Name = newName;
-        _motoAppDbContext.SaveChanges();
+        var car = _carsRepository.GetAll().FirstOrDefault(x => x.Name == oldName);
+        if (car != null)
+        {
+            car!.Name = newName;
+            _carsRepository.Save();
+        }
     }
 
-    public void UpdateManufacturerCountryInDatabase(string oldCountry, string newCountry)
+    public void UpdateManufacturerCountryInDatabase(string name, string newCountry)
     {
-        var manufacturer = _motoAppDbContext.Manufacturers.SingleOrDefault(x => x.Country == oldCountry);
-        manufacturer!.Country = newCountry;
-        _motoAppDbContext.SaveChanges();
+        var manufacturer = _manufacturersRepository.GetAll().FirstOrDefault(x=>x.Name == name);
+        if (manufacturer != null)
+        {
+            manufacturer!.Country = newCountry;
+            _manufacturersRepository.Save();
+        }
     }
 }
