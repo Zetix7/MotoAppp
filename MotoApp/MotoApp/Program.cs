@@ -27,7 +27,6 @@ services.AddDbContext<MotoAppDbContext>(options => options
 services.AddSingleton<IXmlReader, XmlReader>();
 services.AddSingleton<IMotoAppStorageAccess, MotoAppStorageAccess>();
 services.AddSingleton<IMotoAppStorageAccessApp, MotoAppStorageAccessApp>();
-//services.AddSingleton<IRepository<Employee>, SqlRepository<Employee>>();
 services.AddSingleton<IRepository<Car>, SqlRepository<Car>>();
 services.AddSingleton<IRepository<Manufacturer>, SqlRepository<Manufacturer>>();
 
