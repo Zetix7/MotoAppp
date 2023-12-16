@@ -2,7 +2,6 @@
 using MotoApp.Data;
 using MotoApp.Data.Entities;
 using MotoApp.Data.Repositories;
-using System.Drawing;
 
 namespace MotoApp.Components.EmployeeApp;
 
@@ -19,13 +18,13 @@ public class EmployeeApp : IEmployeeApp
 
     public void Run()
     {
-        //var repository = new SqlRepository<Employee>(new MotoAppDbContext());
         _employeeRepository.ItemAdded += EmployeeRepositoryOnItemAdded;
         _employeeRepository.ItemRemoved += EmployeeRepositoryOnItemRemoved;
 
         Console.WriteLine("-------------------------------------------------------------------");
         Console.WriteLine("Welcome in part of Employees Mangement App");
 
+        string? choise;
         do
         {
             Console.WriteLine("-------------------------------------------------------------------");
@@ -35,52 +34,15 @@ public class EmployeeApp : IEmployeeApp
             Console.WriteLine("\t3 - Get specific data");
             Console.WriteLine("\tQ - Exit");
             Console.Write("Your choise: ");
-            var choise = Console.ReadLine();
+            choise = Console.ReadLine();
 
-            if (choise == "q" || choise == "Q")
+            if (choise == "1")
             {
-                break;
-            }
-            else if (choise == "1")
-            {
-                try
-                {
-                    var data = new DataInFile<Employee>(_employeeRepository);
-                    data.ItemRead += EmployeesFileOnItemRead;
-                    data.Read();
-                    WriteAllToConsole(_employeeRepository);
-                }
-                catch (FileNotFoundException fe)
-                {
-                    Console.WriteLine($"Exception catched: {fe.Message}");
-                }
-                catch (FileLoadException fe)
-                {
-                    Console.WriteLine($"Exception catched: {fe.Message}");
-                }
+                ReadEmployeeFromJsonFile();
             }
             else if (choise == "2")
             {
-                try
-                {
-                    Console.Write("Insert employee name: ");
-                    var employeeName = Console.ReadLine();
-                    var data = new DataInFile<Employee>(_employeeRepository);
-                    data.ItemAdded += EmployeeFileOnItemAdded;
-                    data.Add(new Employee { FirstName = employeeName });
-                }
-                catch (FileNotFoundException fe)
-                {
-                    Console.WriteLine($"Exception catched: {fe.Message}");
-                }
-                catch (ArgumentOutOfRangeException ae)
-                {
-                    Console.WriteLine($"Exception catched: {ae.Message}");
-                }
-                catch (NullReferenceException ne)
-                {
-                    Console.WriteLine($"Exception catched: {ne.Message}");
-                }
+                AddEmployeeToJsonFile();
             }
             else if (choise == "3")
             {
@@ -90,99 +52,168 @@ public class EmployeeApp : IEmployeeApp
             {
                 Console.WriteLine("\tTry again!");
             }
-        } while (true);
+        } while (choise != "q" && choise != "Q");
+    }
+
+    private void AddEmployeeToJsonFile()
+    {
+        try
+        {
+            Console.Write("Insert employee name: ");
+            var employeeName = Console.ReadLine();
+            var data = new DataInFile<Employee>(_employeeRepository);
+            data.ItemAdded += EmployeeFileOnItemAdded;
+            data.Add(new Employee { FirstName = employeeName });
+        }
+        catch (FileNotFoundException fe)
+        {
+            Console.WriteLine($"Exception catched: {fe.Message}");
+        }
+        catch (ArgumentOutOfRangeException ae)
+        {
+            Console.WriteLine($"Exception catched: {ae.Message}");
+        }
+        catch (NullReferenceException ne)
+        {
+            Console.WriteLine($"Exception catched: {ne.Message}");
+        }
+    }
+
+    private void ReadEmployeeFromJsonFile()
+    {
+        try
+        {
+            var data = new DataInFile<Employee>(_employeeRepository);
+            data.ItemRead += EmployeesFileOnItemRead;
+            data.Read();
+            WriteAllToConsole(_employeeRepository);
+        }
+        catch (FileNotFoundException fe)
+        {
+            Console.WriteLine($"Exception catched: {fe.Message}");
+        }
+        catch (FileLoadException fe)
+        {
+            Console.WriteLine($"Exception catched: {fe.Message}");
+        }
     }
 
     private void GetSpecificEmployeeData()
     {
+        string? choise;
         do
         {
-            Console.WriteLine("-------------------------------------------------------------------");
-            Console.WriteLine("Get specific useless data");
-            Console.WriteLine("\t1 - Order Employees By Name");
-            Console.WriteLine("\t2 - Get Unique Employees Name");
-            Console.WriteLine("\t3 - Get Chunk Employees");
-            Console.WriteLine("\t4 - Skip Employees");
-            Console.WriteLine("\t5 - Get Single Employee Starts With");
-            Console.WriteLine("\tQ - Exit");
-            Console.Write("Your choise: ");
+            ShowMenuEmployeeApp();
+            choise = Console.ReadLine();
+
+            switch (choise)
+            {
+                case "1":
+                    OrderEmployeesByName();
+                    break;
+                case "2":
+                    GetUniqueEmployeesName();
+                    break;
+                case "3":
+                    GetChunkEmployees();
+                    break;
+                case "4":
+                    SkipEmployees();
+                    break;
+                case "5":
+                    GetFirstEmployeeStartsWith();
+                    break;
+                case "Q" or "q":
+                    break;
+                default:
+                    Console.WriteLine("\tTry again");
+                    break;
+            }
+        } while (choise != "Q" && choise != "q");
+    }
+
+    private static void ShowMenuEmployeeApp()
+    {
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("Get specific useless data");
+        Console.WriteLine("\t1 - Order Employees By Name");
+        Console.WriteLine("\t2 - Get Unique Employees Name");
+        Console.WriteLine("\t3 - Get Chunk Employees");
+        Console.WriteLine("\t4 - Skip Employees");
+        Console.WriteLine("\t5 - Get Single Employee Starts With");
+        Console.WriteLine("\tQ - Exit");
+        Console.Write("Your choise: ");
+    }
+
+    private void OrderEmployeesByName()
+    {
+        foreach (var employee in _employeeProvider.OrderEmployeesByName())
+        {
+            Console.WriteLine("\t" + employee);
+        }
+    }
+
+    private void GetUniqueEmployeesName()
+    {
+        foreach (var employee in _employeeProvider.GetUniqueEmployeesName())
+        {
+            Console.WriteLine("\t" + employee);
+        }
+    }
+
+    private void GetChunkEmployees()
+    {
+        do
+        {
+            Console.Write("Insert size of chunk (must be uint!): ");
             var choise = Console.ReadLine();
 
-            if (choise == "1")
+            if (int.TryParse(choise, out int size))
             {
-                foreach (var employee in _employeeProvider.OrderEmployeesByName())
+                foreach (var chunk in _employeeProvider.GetChunkEmployees(size))
                 {
-                    Console.WriteLine("\t" + employee);
+                    Console.WriteLine("---chunk---");
+                    foreach (var employee in chunk)
+                    {
+                        Console.WriteLine("\t" + employee);
+                    }
                 }
-            }
-            else if (choise == "2")
-            {
-                foreach (var employee in _employeeProvider.GetUniqueEmployeesName())
-                {
-                    Console.WriteLine("\t" + employee);
-                }
-            }
-            else if (choise == "3")
-            {
-                do
-                {
-                    Console.Write("Insert size of chunk (must be uint!): ");
-                    choise = Console.ReadLine();
-
-                    if (int.TryParse(choise, out int size))
-                    {
-                        foreach (var chunk in _employeeProvider.GetChunkEmployees(size))
-                        {
-                            Console.WriteLine("---chunk---");
-                            foreach (var employee in chunk)
-                            {
-                                Console.WriteLine("\t" + employee);
-                            }
-                        }
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Try again! Insert correct uint!");
-                    }
-                } while (true);
-            }
-            else if (choise == "4")
-            {
-                do
-                {
-                    Console.Write("Insert how many skip employees (must be uint!): ");
-                    choise = Console.ReadLine();
-
-                    if (int.TryParse(choise, out int howMany))
-                    {
-                        foreach (var employee in _employeeProvider.SkipEmployees(howMany))
-                        {
-                            Console.WriteLine("\t" + employee);
-                        }
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Try again! Insert correct uint!");
-                    }
-                } while (true);
-            }
-            else if (choise == "5")
-            {
-                Console.Write("Insert employee name starts with letter/s...: ");
-                choise = Console.ReadLine();
-                Console.WriteLine("\t" + _employeeProvider.GetFirstEmployeeStartsWith(choise!));
-            }
-            else if (choise == "Q" || choise == "q")
-            {
                 break;
             }
             else
             {
-                Console.WriteLine("\tTry again");
+                Console.WriteLine("Try again! Insert correct uint!");
             }
         } while (true);
+    }
+
+    private void SkipEmployees()
+    {
+        do
+        {
+            Console.Write("Insert how many skip employees (must be uint!): ");
+            var choise = Console.ReadLine();
+
+            if (int.TryParse(choise, out int howMany))
+            {
+                foreach (var employee in _employeeProvider.SkipEmployees(howMany))
+                {
+                    Console.WriteLine("\t" + employee);
+                }
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Try again! Insert correct uint!");
+            }
+        } while (true);
+    }
+
+    private void GetFirstEmployeeStartsWith()
+    {
+        Console.Write("Insert employee name starts with letter/s...: ");
+        var choise = Console.ReadLine();
+        Console.WriteLine("\t" + _employeeProvider.GetFirstEmployeeStartsWith(choise!));
     }
 
     private static void FillAuditFile(string action, string item)

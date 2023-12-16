@@ -34,6 +34,8 @@ public class MotoAppStorageAccessApp : IMotoAppStorageAccessApp
                 case "2":
                     RunManufacturersMenu();
                     break;
+                case "q" or "Q":
+                    break;
                 default:
                     Console.WriteLine("\tTry again!");
                     break;
