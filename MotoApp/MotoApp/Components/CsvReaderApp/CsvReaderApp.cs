@@ -6,13 +6,10 @@ namespace MotoApp.Components.CsvReaderApp;
 internal class CsvReaderApp : ICsvReaderApp
 {
     private readonly ICsvReader _csvReader;
-    private readonly MotoAppDbContext _motoAppDbContext;
 
-    public CsvReaderApp(ICsvReader csvReader, MotoAppDbContext motoAppDbContext)
+    public CsvReaderApp(ICsvReader csvReader)
     {
         _csvReader = csvReader;
-        _motoAppDbContext = motoAppDbContext;
-        _motoAppDbContext.Database.EnsureCreated();
     }
 
     public void Run()

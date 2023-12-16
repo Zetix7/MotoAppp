@@ -11,6 +11,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     public SqlRepository(MotoAppDbContext dbContext)
     {
         _dbContext = dbContext;
+        _dbContext.Database.EnsureCreated();
         _dbSet = _dbContext.Set<T>();
     }
 
