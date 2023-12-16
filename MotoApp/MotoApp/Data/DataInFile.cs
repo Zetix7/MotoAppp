@@ -32,29 +32,17 @@ public class DataInFile<T> where T : class, IEntity
         }
         else
         {
-            foreach (var item in _repository.GetAll())
-            {
-                _repository.Remove(item);
-            }
-            _repository.Save();
+            RemoveItemsFromRepository();
             using (var reader = File.OpenText(FullFileName))
             {
                 var line = reader.ReadLine();
                 while (line != null)
                 {
-                    var item = JsonSerializer.Deserialize<T>(line);
-                    foreach (var itemInRepository in _repository.GetAll())
-                    {
-                        if (item?.Id == itemInRepository.Id)
-                        {
-                            item.Id++;
-                        }
-                    }
-                    _repository.Add(item!);
-                    _repository.Save();
+                    var itemFromFile = JsonSerializer.Deserialize<T>(line);
+                    FindNextFreeId(itemFromFile);
                     line = reader.ReadLine();
 
-                    ItemRead?.Invoke(this, item!);
+                    ItemRead?.Invoke(this, itemFromFile!);
                 }
             }
         }
@@ -64,29 +52,22 @@ public class DataInFile<T> where T : class, IEntity
     {
         using (var reader = File.OpenText(FullFileName))
         {
-            foreach (var itemInRepository in _repository.GetAll())
-            {
-                _repository.Remove(itemInRepository);
-            }
-            _repository.Save();
+            RemoveItemsFromRepository();
             var line = reader.ReadLine();
             while (line != null)
             {
                 var itemFromFile = JsonSerializer.Deserialize<T>(line);
-                foreach (var itemInRepository in _repository.GetAll())
-                {
-                    if (itemFromFile?.Id == itemInRepository.Id)
-                    {
-                        itemFromFile.Id++;
-                    }
-                }
-                _repository.Add(itemFromFile!);
-                _repository.Save();
+                FindNextFreeId(itemFromFile);
                 line = reader.ReadLine();
             }
         }
         _repository.Add(item!);
         _repository.Save();
+        SaveDataFromRepositoryInFile();
+    }
+
+    private void SaveDataFromRepositoryInFile()
+    {
         using (var writer = File.CreateText(FullFileName))
         {
             foreach (var itemInRepository in _repository.GetAll())
@@ -95,5 +76,27 @@ public class DataInFile<T> where T : class, IEntity
                 ItemAdded?.Invoke(this, itemInRepository);
             }
         }
+    }
+
+    private void FindNextFreeId(T? itemFromFile)
+    {
+        foreach (var itemInRepository in _repository.GetAll())
+        {
+            if (itemFromFile?.Id == itemInRepository.Id)
+            {
+                itemFromFile.Id++;
+            }
+        }
+        _repository.Add(itemFromFile!);
+        _repository.Save();
+    }
+
+    private void RemoveItemsFromRepository()
+    {
+        foreach (var itemInRepository in _repository.GetAll())
+        {
+            _repository.Remove(itemInRepository);
+        }
+        _repository.Save();
     }
 }

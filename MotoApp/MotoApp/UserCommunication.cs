@@ -43,11 +43,13 @@ public class UserCommunication : IUserCommunication
                 case "3":
                     _motoAppStorageAccessApp.Run();
                     break;
+                case "q" or "Q":
+                    break;
                 default:
                     Console.WriteLine("Choose 1 or 2 or Q! No more options!");
                     Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
                     break;
             }
-        } while (choise != "q" || choise != "Q");
+        } while (choise != "q" && choise != "Q");
     }
 }
