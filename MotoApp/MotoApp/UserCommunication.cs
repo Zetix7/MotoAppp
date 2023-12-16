@@ -20,7 +20,7 @@ public class UserCommunication : IUserCommunication
     public void Run()
     {
         Console.WriteLine("Welcome in complicated App!\n");
-
+        string? choise;
         do
         {
             Console.WriteLine("-------------------------------------------------------------");
@@ -30,29 +30,24 @@ public class UserCommunication : IUserCommunication
             Console.WriteLine("\t3 - Moto Management App");
             Console.WriteLine("\tQ - Exit");
             Console.Write("\t\tYour choise: ");
-            var choise = Console.ReadLine();
+            choise = Console.ReadLine();
 
-            if (choise == "q" || choise == "Q")
+            switch (choise)
             {
-                break;
+                case "1":
+                    _employeeApp.Run();
+                    break;
+                case "2":
+                    _csvReaderApp.Run();
+                    break;
+                case "3":
+                    _motoAppStorageAccessApp.Run();
+                    break;
+                default:
+                    Console.WriteLine("Choose 1 or 2 or Q! No more options!");
+                    Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
+                    break;
             }
-            else if (choise == "1")
-            {
-                _employeeApp.Run();
-            }
-            else if (choise == "2")
-            {
-                _csvReaderApp.Run();
-            }
-            else if (choise == "3")
-            {
-                _motoAppStorageAccessApp.Run();
-            }
-            else
-            {
-                Console.WriteLine("Choose 1 or 2 or Q! No more options!");
-                Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
-            }
-        } while (true);
+        } while (choise != "q" || choise != "Q");
     }
 }
