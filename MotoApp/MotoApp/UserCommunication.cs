@@ -46,7 +46,7 @@ public class UserCommunication : IUserCommunication
                 case "q" or "Q":
                     break;
                 default:
-                    Console.WriteLine("Choose 1 or 2 or Q! No more options!");
+                    Console.WriteLine("Choose 1 or 2 or 3 or Q! No more options!");
                     Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
                     break;
             }
