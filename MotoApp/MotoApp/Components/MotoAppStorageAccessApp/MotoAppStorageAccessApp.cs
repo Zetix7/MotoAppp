@@ -50,6 +50,7 @@ public class MotoAppStorageAccessApp : IMotoAppStorageAccessApp
         Console.WriteLine("\t2. Read manufacturers from repository.");
         Console.WriteLine("\t3. Update manufacturer country by name in repository.");
         Console.WriteLine("\t4. Remove manufacturer by name from repository.");
+        Console.WriteLine("\tQ - Exit");
         Console.Write("\t\tYour choise: ");
         var choise = Console.ReadLine();
 
@@ -83,6 +84,7 @@ public class MotoAppStorageAccessApp : IMotoAppStorageAccessApp
         Console.WriteLine("\t2. Read cars from repository.");
         Console.WriteLine("\t3. Update car name in repository.");
         Console.WriteLine("\t4. Remove car by name from repository.");
+        Console.WriteLine("\tQ - Exit");
         Console.Write("\t\tYour choise: ");
 
         var choise = Console.ReadLine();
