@@ -16,23 +16,13 @@ internal class CsvReaderApp : ICsvReaderApp
     {
         var cars = _csvReader.ProcessCars("Resources//Files//fuel.csv");
         var manufacturers = _csvReader.ProcessManufacturers("Resources//Files//manufacturers.csv");
-
+        string? choise;
         do
         {
-            Console.WriteLine("-------------------------------------------------------------");
-            Console.WriteLine("Choose one option.");
-            Console.WriteLine("\t1 - GroupBy");
-            Console.WriteLine("\t2 - Join");
-            Console.WriteLine("\t3 - GroupJoin");
-            Console.WriteLine("\tQ - Exit");
-            Console.Write("\t\tYour choise: ");
-            var choise = Console.ReadLine();
+            PrintMenuCsvReaderApp();
+            choise = Console.ReadLine();
 
-            if (choise == "q" || choise == "Q")
-            {
-                break;
-            }
-            else if (choise == "1")
+            if (choise == "1")
             {
                 GroupByAndShowResult(cars);
             }
@@ -49,8 +39,20 @@ internal class CsvReaderApp : ICsvReaderApp
                 Console.WriteLine("Choose just  one from 1 to 3 or Q! No more options!");
                 Console.WriteLine("\tIf you do not choose, You will stuck here forever!");
             }
-        } while (true);
+        } while (choise != "q" && choise != "Q");
     }
+
+    private static void PrintMenuCsvReaderApp()
+    {
+        Console.WriteLine("-------------------------------------------------------------");
+        Console.WriteLine("Choose one option.");
+        Console.WriteLine("\t1 - GroupBy");
+        Console.WriteLine("\t2 - Join");
+        Console.WriteLine("\t3 - GroupJoin");
+        Console.WriteLine("\tQ - Exit");
+        Console.Write("\t\tYour choise: ");
+    }
+
     private static void GroupJoinAndShowResult(List<CsvReader.Models.Car> cars, List<CsvReader.Models.Manufacturer> manufacturers)
     {
         var groupJoin = manufacturers.GroupJoin(
